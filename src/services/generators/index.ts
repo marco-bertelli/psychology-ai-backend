@@ -1,8 +1,13 @@
-import * as _ from 'lodash';
-import logger from '../logger/index';
+import { Request, Response } from 'express';
+import { Document, Model } from 'mongoose';
 
-export function generateActions(actions: any, model: any, populationOptions?: any[]) {
-    actions.index = async function ({ querymen: { query, cursor } }: any, res: any) {
+import logger from '../logger/index';
+import * as _ from 'lodash';
+
+export function generateActions<T>( model: Model<T>, populationOptions?: string[]) {
+    const actions: Record<string, Function> = {};
+
+    actions.index = async function ({ querymen: { query, cursor } }: any, res: Response) {
 
         const results = await model.find(query)
             .skip(cursor.skip)
@@ -13,11 +18,11 @@ export function generateActions(actions: any, model: any, populationOptions?: an
 
         const count = await model.countDocuments(query);
 
-        res.set('Odin-Count', count);
+        res.set('Odin-Count', count as unknown as string);
         res.send(results);
     };
 
-    actions.show = async function ({ params: { id } }: any, res: any) {
+    actions.show = async function ({ params: { id } }: Request, res: Response) {
 
         const result = await model.findById(id).populate(populationOptions);
 
@@ -28,7 +33,7 @@ export function generateActions(actions: any, model: any, populationOptions?: an
         res.send(result);
     };
 
-    actions.create = async ({ body }: any, res: any) => {
+    actions.create = async ({ body }: Request, res: Response) => {
         let createdEntity;
 
         try {
@@ -41,8 +46,8 @@ export function generateActions(actions: any, model: any, populationOptions?: an
         res.send(createdEntity);
     };
 
-    actions.update = async ({ body, params: { id } }: any, res: any, next: any) => {
-        const entity = await model.findById(id)
+    actions.update = async ({ body, params: { id } }: Request, res: Response) => {
+        const entity = await model.findById(id) as Document<T>
 
         if (!entity) {
             return res.status(404).send();
@@ -51,10 +56,10 @@ export function generateActions(actions: any, model: any, populationOptions?: an
         for (const key in body) {
             if (
                 !_.isUndefined(body[key]) &&
-                entity[key] !== body[key]
+                entity.get(key) !== body[key]
             ) {
-                entity[key] = null;
-                entity[key] = body[key];
+                (entity as any)[key] = null;
+                (entity as any)[key] = body[key];
                 entity.markModified(key);
             }
         }
@@ -64,7 +69,7 @@ export function generateActions(actions: any, model: any, populationOptions?: an
         res.send(entity)
     };
 
-    actions.destroy = async function ({ params: { id } }: any, res: any) {
+    actions.destroy = async function ({ params: { id } }: Request, res: Response) {
         const entity = await model.findById(id);
 
         if (_.isNil(entity)) {

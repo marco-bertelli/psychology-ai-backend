@@ -1,37 +1,22 @@
 <a name="top"></a>
-# caf v0.0.1
+# psycology-ai-backend v0.0.1
 
 
 
-- [Article](#article)
-	- [Create Article](#create-article)
-	- [Delete Article](#delete-article)
-	- [Retrieve Article](#retrieve-article)
-	- [List articles](#list-articles)
-	- [Update Article](#update-article)
-	
 - [Auth](#auth)
 	- [Authenticate](#authenticate)
 	- [Register an user](#register-an-user)
 	- [Renew JWT](#renew-jwt)
 	
-- [Client](#client)
-	- [Create Client](#create-client)
-	- [Delete Client](#delete-client)
-	- [Retrieve Client](#retrieve-client)
-	- [List clients](#list-clients)
-	- [Update Client](#update-client)
-	
 - [CommonSchemas](#commonschemas)
 	- [](#)
 	
-- [Recepit](#recepit)
-	- [Create Recepit](#create-recepit)
-	- [Delete Recepit](#delete-recepit)
-	- [generate recepit pdf from groups](#generate-recepit-pdf-from-groups)
-	- [Retrieve Recepit](#retrieve-recepit)
-	- [List recepits](#list-recepits)
-	- [Update Recepit](#update-recepit)
+- [Personality](#personality)
+	- [Create Personality](#create-personality)
+	- [Delete Personality](#delete-personality)
+	- [Retrieve Personality](#retrieve-personality)
+	- [List personalities](#list-personalities)
+	- [Update Personality](#update-personality)
 	
 - [User](#user)
 	- [Create user](#create-user)
@@ -45,109 +30,6 @@
 	- [Reset other users password](#reset-other-users-password)
 	
 
-
-# <a name='article'></a> Article
-
-## <a name='create-article'></a> Create Article
-[Back to top](#top)
-
-
-
-	POST /articles
-
-
-
-
-
-
-### Success 201
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Article | Article | <p>Article's data.</p>|
-
-## <a name='delete-article'></a> Delete Article
-[Back to top](#top)
-
-
-
-	DELETE /articles/:id
-
-
-
-
-
-
-### Success 204
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  204 |  | <p>No Content.</p>|
-
-## <a name='retrieve-article'></a> Retrieve Article
-[Back to top](#top)
-
-
-
-	GET /articles/:id
-
-
-
-
-
-
-### Success 200
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Article | Article | <p>Article's data.</p>|
-
-## <a name='list-articles'></a> List articles
-[Back to top](#top)
-
-
-
-	GET /articles
-
-
-
-
-
-### Parameter Parameters
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  page | Number | **optional**<p>Page number.</p>_Default value: 1_<br>_Size range: 1..30_<br>|
-|  limit | Number | **optional**<p>Amount of returned items.</p>_Default value: 30_<br>_Size range: 1..100_<br>|
-|  sort | String[] | **optional**<p>Order of returned items.</p>_Default value: -createdAt_<br>|
-|  fields | String[] | **optional**<p>Fields to be returned.</p>|
-|  singleFieldValue | String[fieldName] | **optional**<p>filter by element value.</p>|
-
-
-
-### Success 200
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  articles | Article[] | <p>List of articles.</p>|
-
-## <a name='update-article'></a> Update Article
-[Back to top](#top)
-
-
-
-	PUT /articles/:id
-
-
-
-
-
-
-### Success 200
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Article | Object | <p>Article's data.</p>|
 
 # <a name='auth'></a> Auth
 
@@ -221,109 +103,6 @@
 |  token | String | <p>User <code>access_token</code> to be passed to other requests.</p>|
 |  user | User | <p>Current user's data.</p>|
 
-# <a name='client'></a> Client
-
-## <a name='create-client'></a> Create Client
-[Back to top](#top)
-
-
-
-	POST /clients
-
-
-
-
-
-
-### Success 201
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Client | Client | <p>Client's data.</p>|
-
-## <a name='delete-client'></a> Delete Client
-[Back to top](#top)
-
-
-
-	DELETE /clients/:id
-
-
-
-
-
-
-### Success 204
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  204 |  | <p>No Content.</p>|
-
-## <a name='retrieve-client'></a> Retrieve Client
-[Back to top](#top)
-
-
-
-	GET /clients/:id
-
-
-
-
-
-
-### Success 200
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Client | Client | <p>Client's data.</p>|
-
-## <a name='list-clients'></a> List clients
-[Back to top](#top)
-
-
-
-	GET /clients
-
-
-
-
-
-### Parameter Parameters
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  page | Number | **optional**<p>Page number.</p>_Default value: 1_<br>_Size range: 1..30_<br>|
-|  limit | Number | **optional**<p>Amount of returned items.</p>_Default value: 30_<br>_Size range: 1..100_<br>|
-|  sort | String[] | **optional**<p>Order of returned items.</p>_Default value: -createdAt_<br>|
-|  fields | String[] | **optional**<p>Fields to be returned.</p>|
-|  singleFieldValue | String[fieldName] | **optional**<p>filter by element value.</p>|
-
-
-
-### Success 200
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  clients | Client[] | <p>List of clients.</p>|
-
-## <a name='update-client'></a> Update Client
-[Back to top](#top)
-
-
-
-	PUT /clients/:id
-
-
-
-
-
-
-### Success 200
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Client | Object | <p>Client's data.</p>|
-
 # <a name='commonschemas'></a> CommonSchemas
 
 ## <a name=''></a> 
@@ -372,14 +151,14 @@ Entity schema: */
 
 
 
-# <a name='recepit'></a> Recepit
+# <a name='personality'></a> Personality
 
-## <a name='create-recepit'></a> Create Recepit
+## <a name='create-personality'></a> Create Personality
 [Back to top](#top)
 
 
 
-	POST /recepits
+	POST /personalities
 
 
 
@@ -390,14 +169,14 @@ Entity schema: */
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-|  Recepit | Recepit | <p>Recepit's data.</p>|
+|  Personality | Personality | <p>Personality's data.</p>|
 
-## <a name='delete-recepit'></a> Delete Recepit
+## <a name='delete-personality'></a> Delete Personality
 [Back to top](#top)
 
 
 
-	DELETE /recepits/:id
+	DELETE /personalities/:id
 
 
 
@@ -410,12 +189,12 @@ Entity schema: */
 |:---------|:-----------|:--------------------------------------|
 |  204 |  | <p>No Content.</p>|
 
-## <a name='generate-recepit-pdf-from-groups'></a> generate recepit pdf from groups
+## <a name='retrieve-personality'></a> Retrieve Personality
 [Back to top](#top)
 
 
 
-	POST /recepits/:id/pdf
+	GET /personalities/:id
 
 
 
@@ -426,32 +205,14 @@ Entity schema: */
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-|  Recepit | Object | <p>Recepit's data.</p>|
+|  Personality | Personality | <p>Personality's data.</p>|
 
-## <a name='retrieve-recepit'></a> Retrieve Recepit
+## <a name='list-personalities'></a> List personalities
 [Back to top](#top)
 
 
 
-	GET /recepits/:id
-
-
-
-
-
-
-### Success 200
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Recepit | Recepit | <p>Recepit's data.</p>|
-
-## <a name='list-recepits'></a> List recepits
-[Back to top](#top)
-
-
-
-	GET /recepits
+	GET /personalities
 
 
 
@@ -473,14 +234,14 @@ Entity schema: */
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-|  recepits | Recepit[] | <p>List of recepits.</p>|
+|  personalities | Personality[] | <p>List of personalities.</p>|
 
-## <a name='update-recepit'></a> Update Recepit
+## <a name='update-personality'></a> Update Personality
 [Back to top](#top)
 
 
 
-	PUT /recepits/:id
+	PUT /personalities/:id
 
 
 
@@ -491,7 +252,7 @@ Entity schema: */
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-|  Recepit | Object | <p>Recepit's data.</p>|
+|  Personality | Object | <p>Personality's data.</p>|
 
 # <a name='user'></a> User
 

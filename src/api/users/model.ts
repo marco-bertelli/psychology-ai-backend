@@ -1,10 +1,14 @@
 import { Schema, model } from 'mongoose';
 import { UserDocument } from './interfaces/index';
-import { Types } from 'mongoose';
 
 import bcrypt from 'bcryptjs';
 
-export const roles = ['admin', 'user']
+export const UserRolesEnum = {
+    USER: 'user',
+    ADMIN: 'admin'
+}
+
+export const roles = Object.values(UserRolesEnum);
 
 const UsersSchema = new Schema({
     email: {
@@ -45,9 +49,6 @@ const UsersSchema = new Schema({
     last_login: {
         // last real login
         type: Date
-    },
-    officeId: {
-        type: Types.ObjectId
     },
     pre_last_login: {
         // last login showed to the user
