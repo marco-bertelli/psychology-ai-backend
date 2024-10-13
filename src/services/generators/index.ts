@@ -4,19 +4,20 @@ import { Document, Model } from 'mongoose';
 import logger from '../logger/index';
 import * as _ from 'lodash';
 
-export function generateActions<T>( model: Model<T>, populationOptions?: string[]) {
+export function generateActions<T>(model: Model<T>, populationOptions?: string[]) {
     const actions: Record<string, Function> = {};
 
     actions.index = async function ({ querymen: { query, cursor } }: any, res: Response) {
-
-        const results = await model.find(query)
+        const resultsPromise = model.find(query)
             .skip(cursor.skip)
             .limit(cursor.limit)
             .sort(cursor.sort)
             .populate(populationOptions)
             .exec();
 
-        const count = await model.countDocuments(query);
+        const countPromise = model.countDocuments(query);
+
+        const [results, count] = await Promise.all([resultsPromise, countPromise]);
 
         res.set('Odin-Count', count as unknown as string);
         res.send(results);
@@ -43,7 +44,9 @@ export function generateActions<T>( model: Model<T>, populationOptions?: string[
             return res.status(400).send(err);
         }
 
-        res.send(createdEntity);
+        const entity = await model.findById(createdEntity._id).populate(populationOptions);
+
+        res.send(entity);
     };
 
     actions.update = async ({ body, params: { id } }: Request, res: Response) => {

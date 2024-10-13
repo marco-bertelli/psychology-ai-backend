@@ -4,6 +4,6 @@ import { generateActions } from '../../services/generators';
 
 import * as _ from 'lodash';
 
-const actions = generateActions<QuestionTemplateDocument>(QuestionTemplates)
+const actions = generateActions<QuestionTemplateDocument>(QuestionTemplates, ['personality'])
 
 export { actions };
