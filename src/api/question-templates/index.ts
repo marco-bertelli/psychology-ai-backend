@@ -7,6 +7,8 @@ import { actions } from './controller';
 // @ts-ignore
 import { middleware as query } from 'querymen'
 
+import { Types } from 'mongoose';
+
 const router = new (Router as any)();
 
 /**
@@ -19,7 +21,20 @@ const router = new (Router as any)();
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Admin access only.
  **/
-router.get('/', token({ required: true }), query(), actions.index);
+router.get('/', token({ required: true }), query({
+    q: {
+        type: String, parse: (value: any, field: any) => {
+            return {
+                $or: [
+                    { name: { $regex: value, $options: 'i' } },
+                ]
+            };
+        }
+    },
+    personalityId: {
+        type: Types.ObjectId
+    }
+}), actions.index);
 
 /**
  * @api {get} /question-templates/:id Retrieve QuestionTemplates

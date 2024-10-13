@@ -19,7 +19,17 @@ const router = new (Router as any)();
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Admin access only.
  **/
-router.get('/', token({ required: true }), query(), actions.index);
+router.get('/', token({ required: true }), query({
+    q: {
+        type: String, parse: (value: any, field: any) => {
+            return {
+                $or: [
+                    { name: { $regex: value, $options: 'i' } },
+                ]
+            };
+        }
+    }
+}), actions.index);
 
 /**
  * @api {get} /personalities/:id Retrieve Personality

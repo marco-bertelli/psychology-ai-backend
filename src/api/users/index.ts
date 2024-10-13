@@ -22,8 +22,8 @@ const queryBody = {
             };
         }
     },
-    officeId: {
-        type: Types.ObjectId
+    role: {
+        type: String
     },
 }
 
