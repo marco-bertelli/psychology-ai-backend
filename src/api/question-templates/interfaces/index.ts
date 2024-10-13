@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import { Types } from 'mongoose';
 
 export interface QuestionTemplateDocument extends Document {
+    order: number,
     name: string,
     questionTemplateType: QuestionTemplateType,
     personalityId: Types.ObjectId,

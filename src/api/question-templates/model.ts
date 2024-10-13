@@ -1,5 +1,6 @@
 import { Schema, model, Types } from 'mongoose';
 import { QuestionTemplateDocument } from './interfaces/index';
+import { calculateDefaultOrder } from './middlewares';
 
 export enum QuestionTemplateType {
     LEVEL = 'level',
@@ -19,6 +20,9 @@ const possibleAnswersSchema = new Schema({
 }, { _id: false });
 
 const schema = new Schema({
+    order: {
+        type: Number,
+    },
     name: {
         type: String,
         required: true,
@@ -38,6 +42,8 @@ const schema = new Schema({
         default: [],
     },
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+schema.pre('save', calculateDefaultOrder);
 
 schema.virtual('personality', {
     ref: 'Personality',
