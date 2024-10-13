@@ -24,7 +24,6 @@ export function generateActions<T>(model: Model<T>, populationOptions?: string[]
     };
 
     actions.show = async function ({ params: { id } }: Request, res: Response) {
-
         const result = await model.findById(id).populate(populationOptions);
 
         if (!result) {
@@ -67,9 +66,16 @@ export function generateActions<T>(model: Model<T>, populationOptions?: string[]
             }
         }
 
-        await entity.save();
+        try {
+            await entity.save();
+        } catch (err) {
+            logger.error(err);
+            return res.status(400).send({ message: err })
+        }
 
-        res.send(entity)
+        const populatedEntity = await model.findById(id).populate(populationOptions);
+
+        res.send(populatedEntity)
     };
 
     actions.destroy = async function ({ params: { id } }: Request, res: Response) {
@@ -79,7 +85,12 @@ export function generateActions<T>(model: Model<T>, populationOptions?: string[]
             return res.status(404).send();
         }
 
-        await entity.remove();
+        try {
+            await entity.remove();
+        } catch (err) {
+            logger.error(err);
+            return res.status(400).send({ message: err });
+        }
 
         res.status(204).send();
     };
