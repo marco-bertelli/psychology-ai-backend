@@ -1,25 +1,12 @@
-import { QuestionTemplateDocument } from './interfaces/index';
-import { calculateDefaultOrder } from './middlewares';
+import { possibleAnswersSchema, QuestionTemplateType, questionTypes } from '../question-templates/model';
 import { Schema, model, Types } from 'mongoose';
-
-export enum QuestionTemplateType {
-    LEVEL = 'level',
-}
-
-export const questionTypes = Object.values(QuestionTemplateType);
-
-export const possibleAnswersSchema = new Schema({
-    answer: {
-        type: String,
-        required: true,
-    },
-    levelNumber: {
-        type: Number,
-        required: true,
-    },
-}, { _id: false });
+import { QuestionsDocument } from './interfaces';
 
 const schema = new Schema({
+    userId: {
+        type: Types.ObjectId,
+        required: true,
+    },
     order: {
         type: Number,
     },
@@ -43,8 +30,6 @@ const schema = new Schema({
     },
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
-schema.pre('save', calculateDefaultOrder);
-
 schema.virtual('personality', {
     ref: 'Personality',
     localField: 'personalityId',
@@ -52,4 +37,4 @@ schema.virtual('personality', {
     justOne: true,
 })
 
-export const QuestionTemplates = model<QuestionTemplateDocument>('QuestionTemplates', schema);
+export const Questions = model<QuestionsDocument>('Questions', schema);
