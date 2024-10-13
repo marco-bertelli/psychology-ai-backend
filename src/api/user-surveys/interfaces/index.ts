@@ -7,6 +7,7 @@ export interface UserSurveyDocument extends Document {
     winningPersonalityId: Types.ObjectId,
     winningPersonalityScore: number,
     winningPersonalityName: string,
+    isCompleted: boolean
 }
 
 export interface PersonalityScore {

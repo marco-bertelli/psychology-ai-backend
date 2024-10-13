@@ -32,6 +32,10 @@ const schema = new Schema({
     winningPersonalityName: {
         type: String,
     },
+    isCompleted: {
+        type: Boolean,
+        default: false,
+    }
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 schema.pre('save', materializeQuestions);

@@ -59,6 +59,12 @@ export async function updateSurveyScore(doc: AnswerDocument, next: Function) {
 
     userSurvey.winningPersonalityName = personality?.name;
 
+    const questionsNumber = await Questions.countDocuments({ userId: userSurvey.userId });
+
+    if (answers.length === questionsNumber) {
+        userSurvey.isCompleted = true;
+    }
+
     await userSurvey.save();
 
     next();
