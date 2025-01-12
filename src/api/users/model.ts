@@ -5,7 +5,8 @@ import bcrypt from 'bcryptjs';
 
 export const UserRolesEnum = {
     USER: 'user',
-    ADMIN: 'admin'
+    ADMIN: 'admin',
+    BOT: 'bot'
 }
 
 export const roles = Object.values(UserRolesEnum);
