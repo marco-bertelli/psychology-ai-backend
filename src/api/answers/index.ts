@@ -45,6 +45,16 @@ router.get('/:id', token({ required: true }), actions.show);
 router.post('/', admin, actions.create);
 
 /**
+ * @api {post} /answers/questions/:questionId/me Create Answer for my survey question
+ * @apiGroup Answer
+ * @apiName CreateForMySurvey
+ * @apiPermission user
+ * @apiSuccess (Success 201) {Answer} Answer Answer's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ **/
+router.post('/questions/:questionId/me', token({ required: true }), actions.createAnswerForMySurvey);
+
+/**
  * @api {put} /answers/:id Update Answer
  * @apiGroup Answer
  * @apiName Update

@@ -42,8 +42,11 @@ export async function updateSurveyScore(doc: AnswerDocument, next: Function) {
         }
 
         const existingScoreIndex = _.findIndex(userSurvey.personalityScores, { personalityId: answer.personalityId });
+        const personalityAnswers = _.filter(answers, { personalityId: answer.personalityId });
 
-        userSurvey.personalityScores[existingScoreIndex].score += answer.personalityScore;
+        const personalityScore = _.reduce(personalityAnswers, (acc, pa) => acc + pa.personalityScore, 0);
+
+        userSurvey.personalityScores[existingScoreIndex].score = personalityScore;
     });
 
     const maxPersonalityScore = _.maxBy(userSurvey.personalityScores, 'score');

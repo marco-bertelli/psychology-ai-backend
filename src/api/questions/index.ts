@@ -10,34 +10,45 @@ import { middleware as query } from 'querymen'
 const router = new (Router as any)();
 
 /**
- * @api {get} /user-surveys List user-surveys
- * @apiGroup UserSurvey
+ * @api {get} /questions List questions
+ * @apiGroup Questions
  * @apiName RetrieveAll
  * @apiPermission admin
  * @apiUse listParams
- * @apiSuccess {UserSurvey[]} user-surveys List of user-surveys.
+ * @apiSuccess {Questions[]} questions List of questions.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Admin access only.
  **/
 router.get('/', token({ required: true }), query(), actions.index);
 
 /**
- * @api {get} /user-surveys/:id Retrieve UserSurvey
- * @apiGroup UserSurvey
+ * @api {get} /questions/:id Retrieve Questions
+ * @apiGroup Questions
  * @apiName Retrieve
  * @apiPermission admin
- * @apiSuccess {UserSurvey} UserSurvey UserSurvey's data.
+ * @apiSuccess {Questions} Questions Questions's data.
  * @apiError 401 Admin access only.
- * @apiError 404 UserSurvey not found.
+ * @apiError 404 Questions not found.
  **/
 router.get('/:id', token({ required: true }), actions.show);
 
 /**
- * @api {post} /user-surveys Create UserSurvey
- * @apiGroup UserSurvey
+ * @api {get} /questions/surveys/me Retrieve Questions
+ * @apiGroup Questions
+ * @apiName Retrieve
+ * @apiPermission admin
+ * @apiSuccess {Questions} Questions Questions's data.
+ * @apiError 401 Admin access only.
+ * @apiError 404 Questions not found.
+ **/
+router.get('/surveys/me', token({ required: true }), actions.getMySurveyQuestions);
+
+/**
+ * @api {post} /questions Create Questions
+ * @apiGroup Questions
  * @apiName Create
  * @apiPermission admin
- * @apiSuccess (Success 201) {UserSurvey} UserSurvey UserSurvey's data.
+ * @apiSuccess (Success 201) {Questions} Questions Questions's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Admin access only.
  * @apiError 409 Email already registered.
@@ -45,25 +56,25 @@ router.get('/:id', token({ required: true }), actions.show);
 router.post('/', admin, actions.create);
 
 /**
- * @api {put} /user-surveys/:id Update UserSurvey
- * @apiGroup UserSurvey
+ * @api {put} /questions/:id Update Questions
+ * @apiGroup Questions
  * @apiName Update
- * @apiPermission UserSurvey
- * @apiSuccess {Object} UserSurvey UserSurvey's data.
+ * @apiPermission Questions
+ * @apiSuccess {Object} Questions Questions's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Current UserSurvey or admin access only.
- * @apiError 404 UserSurvey not found.
+ * @apiError 401 Current Questions or admin access only.
+ * @apiError 404 Questions not found.
  **/
 router.put('/:id', admin, actions.update);
 
 /**
- * @api {delete} /user-surveys/:id Delete UserSurvey
+ * @api {delete} /questions/:id Delete Questions
  * @apiName Delete
- * @apiGroup UserSurvey
+ * @apiGroup Questions
  * @apiPermission admin
  * @apiSuccess (Success 204) 204 No Content.
  * @apiError 401 Admin access only.
- * @apiError 404 UserSurvey not found.
+ * @apiError 404 Questions not found.
  **/
 router.delete('/:id', admin, actions.destroy);
 
