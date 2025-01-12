@@ -1,3 +1,4 @@
+import { insertDefaultMessage, setPostFields } from './middlewares';
 import { Schema, model, Types } from 'mongoose';
 import { participantsSchema } from './schemas';
 import { ChatDocument } from './interfaces';
@@ -17,5 +18,8 @@ const schema = new Schema({
         bodymenIgnore: true,
     },
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+schema.pre('save', setPostFields);
+schema.post('save', insertDefaultMessage);
 
 export const Chats = model<ChatDocument>('Chats', schema);
