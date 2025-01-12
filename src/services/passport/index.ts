@@ -2,8 +2,6 @@ import { BasicStrategy } from 'passport-http';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { User } from '../../api/users/model';
-import { Schema } from 'mongoose';
-import { UserDocument } from '../../api/users/interfaces';
 
 import passport from 'passport';
 import config from '../../config';
