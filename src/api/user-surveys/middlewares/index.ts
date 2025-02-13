@@ -13,7 +13,11 @@ export async function materializeQuestions(this: UserSurveyDocument, next: Funct
 
     const userId = this.userId;
 
-    await BlueBirdPromise.map(questionTemplates, (questionTemplate) => Questions.create({ ...questionTemplate, userId }));
+    await BlueBirdPromise.map(questionTemplates, (questionTemplate) => {
+        delete questionTemplate._id;
+
+        return Questions.create({ ...questionTemplate, userId })
+    });
 
     return next();
 }
