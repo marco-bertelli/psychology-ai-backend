@@ -8,4 +8,5 @@ export interface ChatMessageDocument extends Document {
     message: string,
     chatSenderRole: string,
     chatSenderEmail: string,
+    userEmotion: string,
 }

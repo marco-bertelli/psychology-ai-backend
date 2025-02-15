@@ -65,6 +65,7 @@
 		"apidoc": "^0.16.1",
 		"apidoc-markdown2": "^0.3.6",
 		"aws-sdk": "^2.1262.0",
+		"axios": "^1.7.9",
 		"babel-core": "^6.17.0",
 		"babel-eslint": "^7.0.0",
 		"babel-jest": "^18.0.0",

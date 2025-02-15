@@ -20,7 +20,7 @@ export async function insertDefaultMessage(doc: ExtendedChatDocument, next: Func
     await ChatMessages.create({
         chatId: doc._id,
         senderId: botParticipant.userId,
-        message: 'Ciao, di cosa vuoi parlare?',
+        message: 'Ciao, come va?',
     });
 }
 

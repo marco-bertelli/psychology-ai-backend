@@ -14,6 +14,9 @@ const schema = new Schema({
         type: Number,
         default: Date.now
     },
+    userEmotion: {
+        type: String,
+    },
     message: {
         type: String,
     },

@@ -6,4 +6,5 @@ export type CustomRequest = Request & {
     querymen: any,
     params: Record<string, string>,
     body: Record<string, unknown>,
+    headers: Record<string, string>,
 }
