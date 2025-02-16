@@ -7,6 +7,7 @@ export interface ChatDocument extends Document {
     userId: Types.ObjectId,
     day: Date,
     participants: participantDocument[],
+    userEmotions: Object[],
     personality: String,
 }
 

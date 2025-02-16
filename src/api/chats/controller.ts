@@ -1,4 +1,4 @@
-import { findBotUser, mapChatParticipants } from './utils';
+import { calculateChatEmotions, findBotUser, mapChatParticipants } from './utils';
 import { generateActions } from '../../services/generators';
 import { CustomRequest } from '../_common-schemas/types';
 import { ChatDocument } from './interfaces';
@@ -59,12 +59,20 @@ actions.getBotResponse = async ({ params: { chatId }, querymen: { query: { messa
       },
     })
 
-    return res.send(response.data);
+    res.send(response.data);
+
+    await sleep(2000);
+
+    await calculateChatEmotions(chat._id);
   } catch (error) {
     logger.error(error);
 
     return res.status(400).send({ message: 'Error while sending message' });
   }
+}
+
+async function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export { actions };

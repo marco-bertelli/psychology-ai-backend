@@ -1,5 +1,6 @@
 import { insertDefaultMessage, materializeUserPersonality, setPostFields } from './middlewares';
 import { Schema, model, Types } from 'mongoose';
+import { defaultUserEmotions } from './utils/consts';
 import { participantsSchema } from './schemas';
 import { ChatDocument } from './interfaces';
 
@@ -14,6 +15,10 @@ const schema = new Schema({
     },
     personality: {
         type: String,
+    },
+    userEmotions: {
+        type: [Object],
+        default: defaultUserEmotions,
     },
     participants: {
         type: [participantsSchema],
