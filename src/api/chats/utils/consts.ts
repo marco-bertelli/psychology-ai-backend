@@ -42,3 +42,10 @@ export const defaultUserEmotions = [
         exaColor: '#008000',
     }
 ]
+
+export type UserEmotion = {
+    emotion: string,
+    score: number,
+    color: string,
+    exaColor: string,
+}

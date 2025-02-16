@@ -2,12 +2,13 @@ import { QuestionTemplateType } from '../../question-templates/model';
 import { Document } from 'mongoose';
 import { Types } from 'mongoose';
 import { ChatRoleEnum } from '../schemas';
+import { UserEmotion } from '../utils/consts';
 
 export interface ChatDocument extends Document {
     userId: Types.ObjectId,
     day: Date,
     participants: participantDocument[],
-    userEmotions: Object[],
+    userEmotions: UserEmotion[],
     personality: String,
 }
 

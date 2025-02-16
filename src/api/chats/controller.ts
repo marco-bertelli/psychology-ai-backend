@@ -10,6 +10,8 @@ import moment from 'moment';
 import axios from 'axios';
 import logger from '../../services/logger';
 
+import _ from 'lodash';
+
 const actions = generateActions<ChatDocument>(Chats);
 
 actions.getDailyChat = async ({ user }: CustomRequest, res: Response) => {
@@ -74,5 +76,19 @@ actions.getBotResponse = async ({ params: { chatId }, querymen: { query: { messa
 async function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+actions.getMyReports = async ({ user, querymen: { query: { fromDate, toDate } } }: CustomRequest, res: Response) => {
+  const chats = await Chats.find({ userId: user._id, $and: [{ day: fromDate }, { day: toDate }] });
+
+  const responseObject = chats.map((chat) => {
+    return {
+      day: moment(chat.day).format('YYYY-MM-DD'),
+      userEmotions: chat.userEmotions,
+      winningColor: _.maxBy(chat.userEmotions, 'score')?.exaColor || null,
+    }
+  });
+
+  res.send(responseObject);
+};
 
 export { actions };
