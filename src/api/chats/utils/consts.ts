@@ -3,43 +3,43 @@ export const defaultUserEmotions = [
         emotion: 'sadness',
         score: 0,
         color: 'blue',
-        exaColor: '#0000FF',
+        exaColor: '#41BDEE',
     },
     {
         emotion: 'fear',
         score: 0,
         color: 'black',
-        exaColor: '#000000',
+        exaColor: '#974099',
     },
     {
         emotion: 'happiness',
         score: 0,
         color: 'yellow',
-        exaColor: '#FFFF00',
+        exaColor: '#F8CB0D',
     },
     {
         emotion: 'anger',
         score: 0,
         color: 'red',
-        exaColor: '#FF0000',
+        exaColor: '#DD0B80',
     },
     {
         emotion: 'neutral',
         score: 0,
         color: 'grey',
-        exaColor: '#808080',
+        exaColor: '#8B8391',
     },
     {
         emotion: 'surprise',
         score: 0,
         color: 'purple',
-        exaColor: '#800080',
+        exaColor: '#FBA719',
     },
     {
         emotion: 'disgust',
         score: 0,
         color: 'green',
-        exaColor: '#008000',
+        exaColor: '#A3CC3F',
     }
 ]
 
