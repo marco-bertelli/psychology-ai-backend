@@ -60,4 +60,15 @@ router.get('/reports/users/:userId', admin, query({
     toDate: { type: Date, operator: '$lte', default: new Date() },
 }), actions.getUserReports);
 
+/**
+ * @api {put} /chats/:chatId/close close chat
+ * @apiGroup chats
+ * @apiName CloseChat
+ * @apiPermission user
+ * @apiUse listParams
+ * @apiSuccess {chats} chat.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ **/
+router.put('/:chatId/close', token({ required: true }), actions.closeChat);
+
 export default router;

@@ -107,4 +107,18 @@ actions.getUserReports = async ({ params: { userId }, querymen: { query: { fromD
   res.send(responseObject);
 };
 
+actions.closeChat = async ({ params: { chatId } }: CustomRequest, res: Response) => {
+  const chat = await Chats.findById(chatId);
+
+  if (!chat) {
+    return res.status(404).send({ message: 'Chat not found' });
+  }
+
+  chat.isChatClosed = true;
+
+  await chat.save();
+
+  res.send(chat);
+};
+
 export { actions };
