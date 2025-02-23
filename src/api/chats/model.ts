@@ -1,4 +1,4 @@
-import { generateChatSummary, insertDefaultMessage, materializeUserPersonality, setPostFields } from './middlewares';
+import { autoCloseChat, generateChatSummary, insertDefaultMessage, materializeUserPersonality, setPostFields } from './middlewares';
 import { Schema, model, Types } from 'mongoose';
 import { defaultUserEmotions } from './utils/consts';
 import { participantsSchema } from './schemas';
@@ -34,6 +34,7 @@ const schema = new Schema({
     }
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
+schema.pre('save', autoCloseChat);
 schema.pre('save', setPostFields);
 schema.pre('save', materializeUserPersonality);
 

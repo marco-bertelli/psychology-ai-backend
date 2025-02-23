@@ -28,6 +28,6 @@ const schema = new Schema({
     },
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
-schema.pre('save', populateChatSender)
+schema.pre('save', populateChatSender);
 
 export const ChatMessages = model<ChatMessageDocument>('ChatMessages', schema);

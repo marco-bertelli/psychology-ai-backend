@@ -74,3 +74,15 @@ export async function generateChatSummary(doc: ExtendedChatDocument, next: Funct
 
     next();
 }
+
+export async function autoCloseChat(this: ChatDocument, next: Function) {
+    const currentChatMessagesNumber = await ChatMessages.countDocuments({ chatId: this._id, chatSenderRole: { $ne: 'bot' } });
+
+    if (currentChatMessagesNumber < 20) {
+        return next();
+    }
+
+    this.isChatClosed = true;
+
+    next();
+}

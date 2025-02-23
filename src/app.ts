@@ -1,3 +1,5 @@
+import { startScheduler } from './services/scheduler';
+
 import http from 'http';
 import logger from './services/logger/index';
 import api from './api/index';
@@ -24,6 +26,8 @@ mongoose.connect(
 );
 
 setImmediate(async () => {
+	startScheduler();
+
 	server.listen(port, ip, () => {
 		logger.info(
 			`Express server listening on http://${ip}:${port}, in ${env} mode`
