@@ -91,4 +91,18 @@ actions.getMyReports = async ({ user, querymen: { query: { fromDate, toDate } } 
   res.send(responseObject);
 };
 
+actions.getUserReports = async ({ params: { userId }, querymen: { query: { fromDate, toDate } } }: CustomRequest, res: Response) => {
+  const chats = await Chats.find({ userId, $and: [{ day: fromDate }, { day: toDate }] });
+
+  const responseObject = chats.map((chat) => {
+    return {
+      day: moment(chat.day).format('YYYY-MM-DD'),
+      userEmotions: chat.userEmotions,
+      winningColor: _.maxBy(chat.userEmotions, 'score')?.exaColor || null,
+    }
+  });
+
+  res.send(responseObject);
+};
+
 export { actions };
