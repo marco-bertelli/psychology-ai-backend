@@ -43,6 +43,18 @@ export const defaultUserEmotions = [
     }
 ]
 
+export const EmotionNamesEnum = {
+    SADNESS: 'sadness',
+    FEAR: 'fear',
+    HAPPINESS: 'happiness',
+    ANGER: 'anger',
+    NEUTRAL: 'neutral',
+    SURPRISE: 'surprise',
+    DISGUST: 'disgust',
+}
+
+export const emotionNames = Object.values(EmotionNamesEnum);
+
 export type UserEmotion = {
     emotion: string,
     score: number,
