@@ -19,7 +19,9 @@ const router = new (Router as any)();
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Admin access only.
  **/
-router.get('/', token({ required: true }), query(), actions.index);
+router.get('/', token({ required: true }), query({
+    emotion: { type: String },
+}), actions.index);
 
 /**
  * @api {get} /trainings/emotions List trainings avvailable emotions
