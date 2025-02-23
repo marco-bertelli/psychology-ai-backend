@@ -38,6 +38,6 @@ schema.pre('save', setPostFields);
 schema.pre('save', materializeUserPersonality);
 
 schema.post('save', insertDefaultMessage);
-// schema.post('save', generateChatSummary);
+schema.post('save', generateChatSummary);
 
 export const Chats = model<ChatDocument>('Chats', schema);

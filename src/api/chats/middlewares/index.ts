@@ -58,11 +58,17 @@ export async function generateChatSummary(doc: ExtendedChatDocument, next: Funct
         return next();
     }
 
-    const response = await axios.get(`${process.env.BOT_API_URL}/chats/${doc._id}/summary`, {
-        headers: {
-            Authorization: `Bearer ${masterKey}`,
-        },
-    })
+    let response;
+
+    try {
+        response = await axios.get(`${process.env.BOT_API_URL}/chats/${doc._id}/summary`, {
+            headers: {
+                Authorization: `Bearer ${masterKey}`,
+            },
+        })
+    } catch (error) {
+        response = { data: 'Error while fetching summary' };
+    }
 
     await Chats.updateOne({ _id: doc._id }, { summary: response.data });
 
