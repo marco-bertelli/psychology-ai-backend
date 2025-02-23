@@ -10,6 +10,8 @@ export interface ChatDocument extends Document {
     participants: participantDocument[],
     userEmotions: UserEmotion[],
     personality: String,
+    isChatClosed: boolean,
+    summary: String,
 }
 
 export interface participantDocument {

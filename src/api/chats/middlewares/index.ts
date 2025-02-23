@@ -2,9 +2,14 @@ import { ChatDocument } from '../interfaces';
 import { ChatRoleEnum } from '../schemas';
 import { ChatMessages } from '../../chat-messages/model';
 import { UserSurvey } from '../../user-surveys/model';
+import { Chats } from '../model';
 
+import config from '../../../config';
+import axios from 'axios';
 
-type ExtendedChatDocument = ChatDocument & { wasNew: boolean, wasParticipantModified: boolean };
+const { masterKey } = config;
+
+type ExtendedChatDocument = ChatDocument & { wasNew: boolean, wasParticipantModified: boolean, wasChatClosedModified: boolean };
 
 export async function insertDefaultMessage(doc: ExtendedChatDocument, next: Function) {
     if (!doc.wasNew) {
@@ -43,6 +48,23 @@ export async function materializeUserPersonality(this: ExtendedChatDocument, nex
 export async function setPostFields(this: ExtendedChatDocument, next: Function) {
     this.wasNew = this.isNew;
     this.wasParticipantModified = this.isModified('participants');
+    this.wasChatClosedModified = this.isModified('isChatClosed');
+
+    next();
+}
+
+export async function generateChatSummary(doc: ExtendedChatDocument, next: Function) {
+    if (!doc.wasChatClosedModified || !doc.isChatClosed) {
+        return next();
+    }
+
+    const response = await axios.get(`${process.env.BOT_API_URL}/chats/${doc._id}/summary`, {
+        headers: {
+            Authorization: `Bearer ${masterKey}`,
+        },
+    })
+
+    await Chats.updateOne({ _id: doc._id }, { summary: response.data });
 
     next();
 }

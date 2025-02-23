@@ -85,6 +85,7 @@ actions.getMyReports = async ({ user, querymen: { query: { fromDate, toDate } } 
       day: moment(chat.day).format('YYYY-MM-DD'),
       userEmotions: chat.userEmotions,
       winningColor: _.maxBy(chat.userEmotions, 'score')?.exaColor || null,
+      summary: chat.summary,
     }
   });
 
@@ -99,6 +100,7 @@ actions.getUserReports = async ({ params: { userId }, querymen: { query: { fromD
       day: moment(chat.day).format('YYYY-MM-DD'),
       userEmotions: chat.userEmotions,
       winningColor: _.maxBy(chat.userEmotions, 'score')?.exaColor || null,
+      summary: chat.summary,
     }
   });
 
