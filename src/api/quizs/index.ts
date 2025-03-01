@@ -22,6 +22,17 @@ const router = new (Router as any)();
 router.get('/', token({ required: true }), query(), actions.index);
 
 /**
+ * @api {get} /quizs/random get a random quiz
+ * @apiGroup Quizs
+ * @apiName RetrieveRandom
+ * @apiPermission user
+ * @apiUse listParams
+ * @apiSuccess {Quizs} quiz
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ **/
+router.get('/random', token({ required: true }), actions.getRandomQuiz);
+
+/**
  * @api {get} /quizs/:id Retrieve Quizs
  * @apiGroup Quizs
  * @apiName Retrieve

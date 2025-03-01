@@ -1,6 +1,11 @@
 import { Document } from 'mongoose';
 
 export interface QuizsDocument extends Document {
-    emotion: String,
-    text: String,
+    imageUrl: String,
+    question: String,
+    answers: [{
+        id: String,
+        text: String,
+    }],
+    correctAnswerId: String,
 }
