@@ -47,4 +47,21 @@ actions.createMyQuizResponse = async ({ user, body }: CustomRequest, res: Respon
     return res.send(updatedResponse)
 }
 
+actions.getMyQuizResponse = async ({ user }: CustomRequest, res: Response) => {
+    const day = moment().startOf('day').toDate()
+
+    const existingResponse = await QuizResponses.findOne({ userId: user._id, day });
+
+    if (!existingResponse) {
+        const createdResponse = await QuizResponses.create({
+            userId: user._id,
+            day,
+        })
+
+        return res.send(createdResponse);
+    }
+
+    return res.send(existingResponse);
+}
+
 export { actions };

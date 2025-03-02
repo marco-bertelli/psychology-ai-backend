@@ -22,6 +22,18 @@ const router = new (Router as any)();
 router.get('/', admin, query(), actions.index);
 
 /**
+ * @api {get} /quiz-responses/me get my daily quiz response
+ * @apiGroup QuizResponse
+ * @apiName RetrieveMyQuizResponse
+ * @apiPermission user
+ * @apiUse listParams
+ * @apiSuccess {QuizResponse} quiz-responses of quiz-responses.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 401 Admin access only.
+ **/
+router.get('/me', token({ required: true }), actions.getMyQuizResponse);
+
+/**
  * @api {get} /quiz-responses/:id Retrieve QuizResponse
  * @apiGroup QuizResponse
  * @apiName Retrieve
