@@ -62,7 +62,14 @@ const UsersSchema = new Schema({
     age: {
         type: Number
     }
-});
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+UsersSchema.virtual('survey', {
+    ref: 'UserSurvey',
+    localField: '_id',
+    foreignField: 'userId',
+    justOne: true,
+})
 
 UsersSchema.pre('save', function (next) {
     if (!this.isModified('password')) {

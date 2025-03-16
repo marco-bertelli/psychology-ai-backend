@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 const actions: any = {};
 
 actions.index = async function ({ querymen: { query, cursor } }: any, res: any) {
-
   const results = await User.find(query).skip(cursor.skip).limit(cursor.limit).sort(cursor.sort);
   const count = await User.countDocuments(query);
 
@@ -13,8 +12,7 @@ actions.index = async function ({ querymen: { query, cursor } }: any, res: any) 
 };
 
 actions.show = async function ({ params: { id } }: any, res: any) {
-
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate('survey').exec();
 
   if (!user) {
     return res.status(404).send();
