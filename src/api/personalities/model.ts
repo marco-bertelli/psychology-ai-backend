@@ -6,6 +6,12 @@ const personalitySchema = new Schema({
     name: {
         type: String,
         required: true,
+    },
+    maleScores: {
+        type: [Object]
+    },
+    femaleScores: {
+        type: [Object]
     }
 });
 

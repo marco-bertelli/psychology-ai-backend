@@ -1,10 +1,8 @@
+import { oldPersonalityCalculation, personalityCalculation } from "../utils";
 import { AnswerDocument } from "../interfaces";
 import { UserSurvey } from "../../user-surveys/model";
 import { Questions } from "../../questions/model";
-import { Answers } from "../model";
-
-import * as _ from 'lodash';
-import { Personality } from "../../personalities/model";
+import { User } from "../../users/model";
 
 export async function updatePersonalityScore(this: AnswerDocument, next: Function) {
     if (!this.isNew && !this.isModified('answer')) return next();
@@ -29,46 +27,25 @@ export async function updateSurveyScore(doc: AnswerDocument, next: Function) {
 
     if (!userSurvey) return next('survey not found');
 
-    const answers = await Answers.find({ surveyId: doc.surveyId }).lean();
+    const user = await User.findById(userSurvey.userId).lean();
 
-    _.map(answers, (answer) => {
-        const existingScore = _.find(userSurvey.personalityScores, { personalityId: answer.personalityId });
-    
-        if (!existingScore) {
-            return userSurvey.personalityScores.push({
-                personalityId: answer.personalityId,
-                score: answer.personalityScore,
-            });
-        }
-
-        const existingScoreIndex = _.findIndex(userSurvey.personalityScores, { personalityId: answer.personalityId });
-        const personalityAnswers = _.filter(answers, { personalityId: answer.personalityId });
-
-        const personalityScore = _.reduce(personalityAnswers, (acc, pa) => acc + pa.personalityScore, 0);
-
-        userSurvey.personalityScores[existingScoreIndex].score = personalityScore;
-    });
-
-    const maxPersonalityScore = _.maxBy(userSurvey.personalityScores, 'score');
-
-    if (!maxPersonalityScore) return next('no max personality score found');
-
-    userSurvey.winningPersonalityId = maxPersonalityScore.personalityId;
-    userSurvey.winningPersonalityScore = maxPersonalityScore.score;
-
-    const personality = await Personality.findById(maxPersonalityScore.personalityId).lean();
-
-    if (!personality) return next('personality not found');
-
-    userSurvey.winningPersonalityName = personality?.name;
-
-    const questionsNumber = await Questions.countDocuments({ userId: userSurvey.userId });
-
-    if (answers.length === questionsNumber) {
-        userSurvey.isCompleted = true;
+    if (!user) {
+        return next();
     }
 
-    await userSurvey.save();
+    let calculationFunction;
+
+    if (!user.sex || !user.age) {
+        calculationFunction = oldPersonalityCalculation;
+    } else {
+        calculationFunction = personalityCalculation;
+    }
+
+    try {
+        await calculationFunction(doc, userSurvey);
+    } catch (e: any) {
+        return next(e.message);
+    }
 
     next();
 }

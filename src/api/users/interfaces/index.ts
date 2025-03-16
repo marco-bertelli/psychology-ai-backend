@@ -9,5 +9,7 @@ export interface UserDocument extends Document {
     isEnabled: Boolean,
     last_login: Date,
     pre_last_login: Date,
-    authenticate: (inputPwd: string, insertPwd: string) => any
+    authenticate: (inputPwd: string, insertPwd: string) => any,
+    sex: string,
+    age: Number,
 }
