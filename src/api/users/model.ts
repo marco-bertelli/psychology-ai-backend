@@ -55,6 +55,13 @@ const UsersSchema = new Schema({
         // last login showed to the user
         type: Date
     },
+    sex: {
+        type: String,
+        enum: ['male', 'female'],
+    },
+    age: {
+        type: Number
+    }
 });
 
 UsersSchema.pre('save', function (next) {
